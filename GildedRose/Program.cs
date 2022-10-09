@@ -2,7 +2,7 @@
 
 public class Program
 {
-    private IList<Item> Items;
+    private IList<Item> _items;
 
     private static void Main(string[] args)
     {
@@ -10,7 +10,7 @@ public class Program
 
         var app = new Program
         {
-            Items = new List<Item>
+            _items = new List<Item>
             {
                 new() { Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20 },
                 new() { Name = "Aged Brie", SellIn = 2, Quality = 0 },
@@ -30,11 +30,11 @@ public class Program
             Console.WriteLine("-------- day " + i + " --------");
             Console.WriteLine("name, sellIn, quality");
 
-            for (var j = 0; j < app.Items.Count; j++)
+            for (var j = 0; j < app._items.Count; j++)
             {
-                Console.WriteLine(app.Items[j]
-                    .Name + ", " + app.Items[j]
-                    .SellIn + ", " + app.Items[j]
+                Console.WriteLine(app._items[j]
+                    .Name + ", " + app._items[j]
+                    .SellIn + ", " + app._items[j]
                     .Quality);
             }
 
@@ -45,52 +45,52 @@ public class Program
 
     public void UpdateQuality()
     {
-        for (var i = 0; i < Items.Count; i++)
+        for (var i = 0; i < _items.Count; i++)
         {
-            if (Items[i]
-                    .Name != "Aged Brie" && Items[i]
+            if (_items[i]
+                    .Name != "Aged Brie" && _items[i]
                     .Name != "Backstage passes to a TAFKAL80ETC concert")
             {
-                if (Items[i]
+                if (_items[i]
                         .Quality > 0)
                 {
-                    if (Items[i]
+                    if (_items[i]
                             .Name != "Sulfuras, Hand of Ragnaros")
                     {
-                        Items[i]
+                        _items[i]
                             .Quality -= 1;
                     }
                 }
             }
             else
             {
-                if (Items[i]
+                if (_items[i]
                         .Quality < 50)
                 {
-                    Items[i]
+                    _items[i]
                         .Quality += 1;
 
-                    if (Items[i]
+                    if (_items[i]
                             .Name == "Backstage passes to a TAFKAL80ETC concert")
                     {
-                        if (Items[i]
+                        if (_items[i]
                                 .SellIn < 11)
                         {
-                            if (Items[i]
+                            if (_items[i]
                                     .Quality < 50)
                             {
-                                Items[i]
+                                _items[i]
                                     .Quality += 1;
                             }
                         }
 
-                        if (Items[i]
+                        if (_items[i]
                                 .SellIn < 6)
                         {
-                            if (Items[i]
+                            if (_items[i]
                                     .Quality < 50)
                             {
-                                Items[i]
+                                _items[i]
                                     .Quality += 1;
                             }
                         }
@@ -98,46 +98,46 @@ public class Program
                 }
             }
 
-            if (Items[i]
+            if (_items[i]
                     .Name != "Sulfuras, Hand of Ragnaros")
             {
-                Items[i]
+                _items[i]
                     .SellIn -= 1;
             }
 
-            if (Items[i]
+            if (_items[i]
                     .SellIn < 0)
             {
-                if (Items[i]
+                if (_items[i]
                         .Name != "Aged Brie")
                 {
-                    if (Items[i]
+                    if (_items[i]
                             .Name != "Backstage passes to a TAFKAL80ETC concert")
                     {
-                        if (Items[i]
+                        if (_items[i]
                                 .Quality > 0)
                         {
-                            if (Items[i]
+                            if (_items[i]
                                     .Name != "Sulfuras, Hand of Ragnaros")
                             {
-                                Items[i]
+                                _items[i]
                                     .Quality -= 1;
                             }
                         }
                     }
                     else
                     {
-                        Items[i]
-                            .Quality -= Items[i]
+                        _items[i]
+                            .Quality -= _items[i]
                             .Quality;
                     }
                 }
                 else
                 {
-                    if (Items[i]
+                    if (_items[i]
                             .Quality < 50)
                     {
-                        Items[i]
+                        _items[i]
                             .Quality += 1;
                     }
                 }
