@@ -5,6 +5,7 @@ public class ProgramTests
     [Fact]
     public void TestTheTruth()
     {
-        true.Should().BeTrue();
+        true.Should()
+            .BeTrue();
     }
 }
