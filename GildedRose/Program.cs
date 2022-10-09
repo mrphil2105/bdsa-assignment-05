@@ -31,12 +31,9 @@ public class Program
             Console.WriteLine("-------- day " + i + " --------");
             Console.WriteLine("name, sellIn, quality");
 
-            for (var j = 0; j < _items.Count; j++)
+            foreach (var item in _items)
             {
-                Console.WriteLine(_items[j]
-                    .Name + ", " + _items[j]
-                    .SellIn + ", " + _items[j]
-                    .Quality);
+                Console.WriteLine($"{item.Name}, {item.SellIn}, {item.Quality}");
             }
 
             Console.WriteLine("");
