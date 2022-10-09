@@ -1,4 +1,6 @@
-﻿namespace GildedRose;
+﻿using System.Collections.ObjectModel;
+
+namespace GildedRose;
 
 public class Program
 {
@@ -15,6 +17,10 @@ public class Program
         // this conjured item does not work properly yet
         new() { Name = "Conjured Mana Cake", SellIn = 3, Quality = 6 }
     };
+
+    private static IReadOnlyCollection<Item>? _readOnlyItems;
+
+    public static IReadOnlyCollection<Item> Items => _readOnlyItems ??= new ReadOnlyCollection<Item>(_items);
 
     private static void Main(string[] args)
     {
