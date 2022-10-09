@@ -58,8 +58,7 @@ internal class Program
                             .Name != "Sulfuras, Hand of Ragnaros")
                     {
                         Items[i]
-                            .Quality = Items[i]
-                            .Quality - 1;
+                            .Quality -= 1;
                     }
                 }
             }
@@ -69,8 +68,7 @@ internal class Program
                         .Quality < 50)
                 {
                     Items[i]
-                        .Quality = Items[i]
-                        .Quality + 1;
+                        .Quality += 1;
 
                     if (Items[i]
                             .Name == "Backstage passes to a TAFKAL80ETC concert")
@@ -82,8 +80,7 @@ internal class Program
                                     .Quality < 50)
                             {
                                 Items[i]
-                                    .Quality = Items[i]
-                                    .Quality + 1;
+                                    .Quality += 1;
                             }
                         }
 
@@ -94,8 +91,7 @@ internal class Program
                                     .Quality < 50)
                             {
                                 Items[i]
-                                    .Quality = Items[i]
-                                    .Quality + 1;
+                                    .Quality += 1;
                             }
                         }
                     }
@@ -106,8 +102,7 @@ internal class Program
                     .Name != "Sulfuras, Hand of Ragnaros")
             {
                 Items[i]
-                    .SellIn = Items[i]
-                    .SellIn - 1;
+                    .SellIn -= 1;
             }
 
             if (Items[i]
@@ -126,16 +121,14 @@ internal class Program
                                     .Name != "Sulfuras, Hand of Ragnaros")
                             {
                                 Items[i]
-                                    .Quality = Items[i]
-                                    .Quality - 1;
+                                    .Quality -= 1;
                             }
                         }
                     }
                     else
                     {
                         Items[i]
-                            .Quality = Items[i]
-                            .Quality - Items[i]
+                            .Quality -= Items[i]
                             .Quality;
                     }
                 }
@@ -145,8 +138,7 @@ internal class Program
                             .Quality < 50)
                     {
                         Items[i]
-                            .Quality = Items[i]
-                            .Quality + 1;
+                            .Quality += 1;
                     }
                 }
             }
