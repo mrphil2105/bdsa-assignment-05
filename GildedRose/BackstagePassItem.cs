@@ -8,25 +8,23 @@ public class BackstagePassItem : Adapter
 
     public override void Update()
     {
-        _item.Quality++;
-
-        if (SellIn <= 10)
-        {
-            _item.Quality++;
-        }
-
-        if (SellIn <= 5)
-        {
-            _item.Quality++;
-        }
-
-        _item.SellIn--;
-
-        if (_item.SellIn < 0)
+        if (--_item.SellIn < 0)
         {
             _item.Quality = 0;
 
             return;
+        }
+
+        _item.Quality++;
+
+        if (SellIn < 10)
+        {
+            _item.Quality++;
+        }
+
+        if (SellIn < 5)
+        {
+            _item.Quality++;
         }
 
         base.Update();
