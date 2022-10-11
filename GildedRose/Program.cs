@@ -4,7 +4,7 @@ namespace GildedRose;
 
 public class Program
 {
-    private static readonly IList<Item> _items = new List<Item>
+    private readonly IList<Item> _items = new List<Item>
     {
         new() { Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20 },
         new() { Name = "Aged Brie", SellIn = 2, Quality = 0 },
@@ -18,12 +18,14 @@ public class Program
         new() { Name = "Conjured Mana Cake", SellIn = 3, Quality = 6 }
     };
 
-    private static IReadOnlyCollection<Item>? _readOnlyItems;
+    private IReadOnlyCollection<Item>? _readOnlyItems;
 
-    public static IReadOnlyCollection<Item> Items => _readOnlyItems ??= new ReadOnlyCollection<Item>(_items);
+    public IReadOnlyCollection<Item> Items => _readOnlyItems ??= new ReadOnlyCollection<Item>(_items);
 
     private static void Main(string[] args)
     {
+        var program = new Program();
+
         Console.WriteLine("OMGHAI!");
 
         for (var i = 0; i < 31; i++)
@@ -31,17 +33,17 @@ public class Program
             Console.WriteLine("-------- day " + i + " --------");
             Console.WriteLine("name, sellIn, quality");
 
-            foreach (var item in _items)
+            foreach (var item in program._items)
             {
                 Console.WriteLine($"{item.Name}, {item.SellIn}, {item.Quality}");
             }
 
             Console.WriteLine("");
-            UpdateQuality();
+            program.UpdateQuality();
         }
     }
 
-    public static void UpdateQuality()
+    public void UpdateQuality()
     {
         foreach (var item in _items)
         {
