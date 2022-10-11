@@ -18,7 +18,20 @@ public class Program
         new() { Name = "Conjured Mana Cake", SellIn = 3, Quality = 6 }
     };
 
+    private readonly List<Adapter> _adapters = new();
+
     private IReadOnlyCollection<Item>? _readOnlyItems;
+
+    public Program()
+    {
+        IItemFactory factory = new ItemFactory();
+
+        foreach (var item in _items)
+        {
+            var adapter = factory.Create(item);
+            _adapters.Add(adapter);
+        }
+    }
 
     public IReadOnlyCollection<Item> Items => _readOnlyItems ??= new ReadOnlyCollection<Item>(_items);
 
@@ -49,77 +62,9 @@ public class Program
 
     public void UpdateQuality()
     {
-        foreach (var item in _items)
+        foreach (var adapter in _adapters)
         {
-            if (item.Name != "Aged Brie" && item.Name != "Backstage passes to a TAFKAL80ETC concert")
-            {
-                if (item.Quality > 0)
-                {
-                    if (item.Name != "Sulfuras, Hand of Ragnaros")
-                    {
-                        item.Quality -= 1;
-                    }
-                }
-            }
-            else
-            {
-                if (item.Quality < 50)
-                {
-                    item.Quality += 1;
-
-                    if (item.Name == "Backstage passes to a TAFKAL80ETC concert")
-                    {
-                        if (item.SellIn < 11)
-                        {
-                            if (item.Quality < 50)
-                            {
-                                item.Quality += 1;
-                            }
-                        }
-
-                        if (item.SellIn < 6)
-                        {
-                            if (item.Quality < 50)
-                            {
-                                item.Quality += 1;
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (item.Name != "Sulfuras, Hand of Ragnaros")
-            {
-                item.SellIn -= 1;
-            }
-
-            if (item.SellIn < 0)
-            {
-                if (item.Name != "Aged Brie")
-                {
-                    if (item.Name != "Backstage passes to a TAFKAL80ETC concert")
-                    {
-                        if (item.Quality > 0)
-                        {
-                            if (item.Name != "Sulfuras, Hand of Ragnaros")
-                            {
-                                item.Quality -= 1;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        item.Quality -= item.Quality;
-                    }
-                }
-                else
-                {
-                    if (item.Quality < 50)
-                    {
-                        item.Quality += 1;
-                    }
-                }
-            }
+            adapter.Update();
         }
     }
 }
