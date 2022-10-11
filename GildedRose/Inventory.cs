@@ -7,36 +7,12 @@ public class InventoryItem
 {
     public Item Item { get; }
     public SellInDelegate SellIn { get; }
-    private QualityDelegate Quality { get; }
+    public QualityDelegate Quality { get; }
     public InventoryItem(Item item, SellInDelegate sellin, QualityDelegate quality)
     {
         Item = item;
         SellIn = sellin;
         Quality = quality;
-    }
-
-    public void Update()
-    {
-        this.Item.SellIn = SellIn.Invoke(this.Item.SellIn);
-
-        var newqual = Quality.Invoke(this.Item.SellIn, this.Item.Quality);
-
-        if (newqual < 0)
-        {
-            this.Item.Quality = 0;
-        }
-        else if (Item.Quality > 50)
-        {
-            return;
-        }
-        else if (newqual > 50)
-        {
-            this.Item.Quality = 50;
-        }
-        else
-        {
-            this.Item.Quality = newqual;
-        }
     }
 }
 
@@ -53,10 +29,45 @@ public class Inventory : IEnumerable<InventoryItem>
         return this;
     }
 
-    internal static int SellInDefault(int sellin) => sellin - 1;
-    internal static int QualityDefault(int sellin, int quality) => sellin <= 0 ? quality - 2 : quality - 1;
+    private static int SellInDefault(int sellin) => sellin - 1;
+    private static int QualityDefault(int sellin, int quality) => sellin <= 0 ? quality - 2 : quality - 1;
 
     public IEnumerator<InventoryItem> GetEnumerator() => inv.GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator() => inv.GetEnumerator();
+
+    public IEnumerable<Item> GetItems()
+    {
+        foreach (var item in inv)
+        {
+            yield return item.Item;
+        }
+    }
+
+    internal void Update()
+    {
+        foreach (var it in this.inv)
+        {
+            it.Item.SellIn = it.SellIn.Invoke(it.Item.SellIn);
+
+            var newqual = it.Quality.Invoke(it.Item.SellIn, it.Item.Quality);
+
+            if (newqual < 0)
+            {
+                it.Item.Quality = 0;
+            }
+            else if (it.Item.Quality > 50)
+            {
+                continue;
+            }
+            else if (newqual > 50)
+            {
+                it.Item.Quality = 50;
+            }
+            else
+            {
+                it.Item.Quality = newqual;
+            }
+        }
+    }
 }
