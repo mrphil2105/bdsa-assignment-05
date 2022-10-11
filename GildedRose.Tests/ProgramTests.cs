@@ -25,6 +25,25 @@ public class ProgramTests
     }
 
     //
+    // All Items (except Legendary)
+    //
+
+    [Fact]
+    public void AllItems_SellInDecreasesByOne_InOneDay()
+    {
+        var items = _program.Items.Except(_legendaryItems)
+            .ToList();
+        var expected = items.Select(i => i.SellIn - 1)
+            .ToList();
+
+        _program.UpdateQuality();
+
+        items.Select(i => i.SellIn)
+            .Should()
+            .Equal(expected);
+    }
+
+    //
     // Normal Items
     //
 
