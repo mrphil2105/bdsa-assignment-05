@@ -25,7 +25,11 @@ public class Program
     private static void Main(string[] args)
     {
         var program = new Program();
+        program.Run();
+    }
 
+    private void Run()
+    {
         Console.WriteLine("OMGHAI!");
 
         for (var i = 0; i < 31; i++)
@@ -33,13 +37,13 @@ public class Program
             Console.WriteLine("-------- day " + i + " --------");
             Console.WriteLine("name, sellIn, quality");
 
-            foreach (var item in program._items)
+            foreach (var item in _items)
             {
                 Console.WriteLine($"{item.Name}, {item.SellIn}, {item.Quality}");
             }
 
             Console.WriteLine("");
-            program.UpdateQuality();
+            UpdateQuality();
         }
     }
 
