@@ -24,10 +24,68 @@ public class ProgramTests
             .ToList();
     }
 
+    //
+    // Normal Items
+    //
+
     [Fact]
-    public void TestTheTruth()
+    public void NormalItems_QualityDecreasesByOne_InOneDay()
     {
-        true.Should()
-            .BeTrue();
+        var expected = _normalItems.Select(i => i.Quality - 1)
+            .ToList();
+
+        _program.UpdateQuality();
+
+        _normalItems.Select(i => i.Quality)
+            .Should()
+            .Equal(expected);
+    }
+
+    [Fact]
+    public void NormalItems_QualityDoesNotDecrease_WhenZero()
+    {
+        while (_normalItems.Any(i => i.Quality > 0))
+        {
+            _program.UpdateQuality();
+        }
+
+        _program.UpdateQuality();
+
+        _normalItems.Should()
+            .OnlyContain(i => i.Quality == 0);
+    }
+
+    [Fact]
+    public void Elixir_QualityDecreasesByTwo_AfterFiveDays()
+    {
+        var elixir = _normalItems.Single(i => i.Name.StartsWith("Elixir"));
+        FastForward(5);
+        var expected = elixir.Quality - 2;
+
+        _program.UpdateQuality();
+
+        elixir.Quality.Should()
+            .Be(expected);
+    }
+
+    [Fact]
+    public void Vest_QualityDecreasesByTwo_AfterTenDays()
+    {
+        var elixir = _normalItems.Single(i => i.Name.Contains("Vest"));
+        FastForward(10);
+        var expected = elixir.Quality - 2;
+
+        _program.UpdateQuality();
+
+        elixir.Quality.Should()
+            .Be(expected);
+    }
+
+    private void FastForward(int days)
+    {
+        for (var i = 0; i < days; i++)
+        {
+            _program.UpdateQuality();
+        }
     }
 }
