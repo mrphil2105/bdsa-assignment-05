@@ -130,6 +130,72 @@ public class ProgramTests
             .Equal(expected);
     }
 
+    //
+    // Backstage Passes
+    //
+
+    [Fact]
+    public void LastPasses_QualityDoesNotExceedFifty_InOneDay()
+    {
+        var last = _backstagePasses.Skip(1)
+            .ToList();
+
+        _program.UpdateQuality();
+
+        last.Should()
+            .OnlyContain(i => i.Quality == 50);
+    }
+
+    [Fact]
+    public void FirstPass_QualityIncreasesByOne_InOneDay()
+    {
+        var first = _backstagePasses.First();
+        var expected = first.Quality + 1;
+
+        _program.UpdateQuality();
+
+        first.Quality.Should()
+            .Be(expected);
+    }
+
+    [Fact]
+    public void FirstPass_QualityIncreasesByTwo_AfterFiveDays()
+    {
+        var first = _backstagePasses.First();
+        FastForward(5);
+        var expected = first.Quality + 2;
+
+        _program.UpdateQuality();
+
+        first.Quality.Should()
+            .Be(expected);
+    }
+
+    [Fact]
+    public void FirstPass_QualityIncreasesByThree_AfterTenDays()
+    {
+        var first = _backstagePasses.First();
+        FastForward(10);
+        var expected = first.Quality + 3;
+
+        _program.UpdateQuality();
+
+        first.Quality.Should()
+            .Be(expected);
+    }
+
+    [Fact]
+    public void Passes_QualityDropsToZero_AfterConcert()
+    {
+        var maxSellIn = _backstagePasses.MaxBy(i => i.SellIn)!.SellIn;
+        FastForward(maxSellIn);
+
+        _program.UpdateQuality();
+
+        _backstagePasses.Should()
+            .OnlyContain(i => i.Quality == 0);
+    }
+
     private void FastForward(int days)
     {
         for (var i = 0; i < days; i++)
