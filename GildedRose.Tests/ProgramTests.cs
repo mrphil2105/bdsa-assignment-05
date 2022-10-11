@@ -100,6 +100,36 @@ public class ProgramTests
             .Be(expected);
     }
 
+    //
+    // Legendary Items
+    //
+
+    [Fact]
+    public void LegendaryItems_SellInDoesNotDecrease()
+    {
+        var expected = _legendaryItems.Select(i => i.SellIn)
+            .ToList();
+
+        _program.UpdateQuality();
+
+        _legendaryItems.Select(i => i.SellIn)
+            .Should()
+            .Equal(expected);
+    }
+
+    [Fact]
+    public void LegendaryItems_QualityDoesNotDecrease()
+    {
+        var expected = _legendaryItems.Select(i => i.Quality)
+            .ToList();
+
+        _program.UpdateQuality();
+
+        _legendaryItems.Select(i => i.Quality)
+            .Should()
+            .Equal(expected);
+    }
+
     private void FastForward(int days)
     {
         for (var i = 0; i < days; i++)
