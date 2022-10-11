@@ -196,6 +196,44 @@ public class ProgramTests
             .OnlyContain(i => i.Quality == 0);
     }
 
+    //
+    // Aged Brie
+    //
+
+    [Fact]
+    public void AgedBrie_QualityIncreasesByOne_InOneDay()
+    {
+        var expected = _agedBrie.Quality + 1;
+
+        _program.UpdateQuality();
+
+        _agedBrie.Quality.Should()
+            .Be(expected);
+    }
+
+    [Fact]
+    public void AgedBrie_QualityIncreasesByTwo_AfterTwoDays()
+    {
+        FastForward(2);
+        var expected = _agedBrie.Quality + 2;
+
+        _program.UpdateQuality();
+
+        _agedBrie.Quality.Should()
+            .Be(expected);
+    }
+
+    [Fact]
+    public void AgedBrie_QualityDoesNotExceedFifty_AfterTwentySixDays()
+    {
+        FastForward(26);
+
+        _program.UpdateQuality();
+
+        _agedBrie.Quality.Should()
+            .Be(50);
+    }
+
     private void FastForward(int days)
     {
         for (var i = 0; i < days; i++)
