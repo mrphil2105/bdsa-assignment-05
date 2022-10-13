@@ -234,6 +234,56 @@ public class ProgramTests
             .Be(50);
     }
 
+    //
+    // Conjured Items
+    //
+
+    [Fact]
+    public void Conjured_QualityDecreasesByTwo_InOneDay()
+    {
+        var expected = _conjuredCake.Quality - 2;
+
+        _program.UpdateQuality();
+
+        _conjuredCake.Quality.Should()
+            .Be(expected);
+    }
+
+    [Fact]
+    public void Conjured_QualityDecreasesByFour_AfterThreeDays()
+    {
+        // Special case: the Conjured Mana Cake hits zero after three days.
+        // So we create a special Conjured item.
+        var item = new Item { Name = "Conjured Health Cake", Quality = 35, SellIn = 3 };
+        var conjured = new ConjuredItem(item);
+
+        for (var i = 0; i < 3; i++)
+        {
+            conjured.Update();
+        }
+
+        var expected = conjured.Quality - 4;
+
+        conjured.Update();
+
+        conjured.Quality.Should()
+            .Be(expected);
+    }
+
+    [Fact]
+    public void Conjured_QualityDoesNotDecrease_WhenZero()
+    {
+        while (_conjuredCake.Quality > 0)
+        {
+            _program.UpdateQuality();
+        }
+
+        _program.UpdateQuality();
+
+        _conjuredCake.Quality.Should()
+            .Be(0);
+    }
+
     private void FastForward(int days)
     {
         for (var i = 0; i < days; i++)
